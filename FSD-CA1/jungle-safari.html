@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animal Safari Adventure</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url('jungle.jpg') no-repeat center center/cover;
+      color: white;
+      text-align: center;
+    }
+    h2 {
+      background: rgba(0,0,0,0.6);
+      padding: 10px;
+    }
+    .animal-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin: 20px;
+    }
+    .animal {
+      width: 120px;
+      height: 120px;
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .animal:hover {
+      transform: scale(1.1);
+    }
+    .fact-box {
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(0,0,0,0.7);
+      border-radius: 10px;
+      display: inline-block;
+      max-width: 500px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>🐾 Animal Safari Adventure 🐾</h2>
+
+  <div class="animal-container">
+    <div class="animal" onclick="playAnimal('lion')">🦁</div>
+    <div class="animal" onclick="playAnimal('elephant')">🐘</div>
+    <div class="animal" onclick="playAnimal('dog')">🐶</div>
+    <div class="animal" onclick="playAnimal('bird')">🐦</div>
+    <div class="animal" onclick="playAnimal('dolphin')">🐬</div>
+  </div>
+
+  <div class="fact-box" id="fact">Click on an animal to hear its sound and learn a fact!</div>
+
+  <!-- Animal sounds -->
+  <audio id="lionSound" src="https://share.google/yKjF0NpdIvploOMlq"></audio>
+  <audio id="elephantSound" src="elephant.mp3"></audio>
+  <audio id="dogSound" src="dog.mp3"></audio>
+  <audio id="birdSound" src="bird.mp3"></audio>
+  <audio id="dolphinSound" src="dolphin.mp3"></audio>
+
+  <script>
+    const facts = {
+      lion: "The lion is known as the king of the jungle.",
+      elephant: "Elephants are the largest land animals on Earth.",
+      dog: "Dogs are loyal and considered human's best friend.",
+      bird: "Birds can fly high and some can even mimic sounds.",
+      dolphin: "Dolphins are intelligent marine animals that live in groups."
+    };
+
+    function playAnimal(animal) {
+      // stop all sounds first
+      document.querySelectorAll("audio").forEach(a => { a.pause(); a.currentTime = 0; });
+      // play selected sound
+      document.getElementById(animal + "Sound").play();
+      // show fact
+      document.getElementById("fact").innerText = facts[animal];
+    }
+  </script>
+
+</body>
+</html>

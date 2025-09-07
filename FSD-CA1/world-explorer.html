@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>World Explorer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #FCE4EC, #E1F5FE);
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #2196F3;
+      color: white;
+      padding: 1rem;
+      font-size: 1.5rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .map-container {
+      position: relative;
+      width: 90%;
+      max-width: 900px;
+      margin: 20px auto;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    }
+
+    .map-container img {
+      width: 100%;
+      display: block;
+    }
+
+    .country {
+      position: absolute;
+      background: rgba(255,255,255,0.85);
+      padding: 4px 8px;
+      border-radius: 5px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .country:hover, .country.active {
+      background: #FFEB3B;
+      transform: scale(1.2);
+      box-shadow: 0 0 10px #fbc02d;
+    }
+
+    .info-card {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 15px;
+      border-radius: 10px;
+      background: white;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      text-align: center;
+      display: none;
+      animation: fadeInUp 0.5s ease-in-out;
+    }
+
+    .info-card h3 {
+      margin-bottom: 10px;
+      color: #1565C0;
+    }
+
+    .quiz {
+      margin-top: 10px;
+    }
+
+    .quiz button {
+      margin: 5px;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 5px;
+      background: #2196F3;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .quiz button:hover {
+      background: #1565C0;
+    }
+
+    .correct {
+      background: #4CAF50 !important;
+    }
+
+    .wrong {
+      background: #F44336 !important;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <header>🌍 World Explorer
+    <a href="index.html" >
+      <button style="width: 80px; height: 30px; background-color:#2196F3;border: none; font-size: 20px; color: white;cursor: pointer;">Home</button>
+    </a>
+  </header>
+
+  <div class="map-container">
+    <img src="world.jpg" alt="World Map">
+
+    <!-- Country initials -->
+    <div class="country" style="top: 55%; left: 60%;" onclick="showInfo('IN', this)">IN</div>
+    <div class="country" style="top: 40%; left: 30%;" onclick="showInfo('US', this)">US</div>
+    <div class="country" style="top: 35%; left: 65%;" onclick="showInfo('CN', this)">CN</div>
+    <div class="country" style="top: 28%; left: 50%;" onclick="showInfo('RU', this)">RU</div>
+    <div class="country" style="top: 45%; left: 50%;" onclick="showInfo('FR', this)">FR</div>
+    <div class="country" style="top: 70%; left: 35%;" onclick="showInfo('BR', this)">BR</div>
+    <div class="country" style="top: 75%; left: 80%;" onclick="showInfo('AU', this)">AU</div>
+    <div class="country" style="top: 80%; left: 55%;" onclick="showInfo('ZA', this)">ZA</div>
+    <div class="country" style="top: 35%; left: 75%;" onclick="showInfo('JP', this)">JP</div>
+    <div class="country" style="top: 48%; left: 52%;" onclick="showInfo('IT', this)">IT</div>
+  </div>
+
+  <div id="info" class="info-card"></div>
+
+  <script>
+    const countryData = {
+      IN: {
+        name: "India",
+        fact: "India is famous for the Taj Mahal.",
+        quiz: { q: "What is India's capital?", options: ["Mumbai", "New Delhi", "Kolkata", "Chennai"], correct: 1 }
+      },
+      US: {
+        name: "United States",
+        fact: "The US is home to the Statue of Liberty.",
+        quiz: { q: "What is the capital of the US?", options: ["New York", "Washington, D.C.", "Chicago", "Los Angeles"], correct: 1 }
+      },
+      CN: {
+        name: "China",
+        fact: "China is known for the Great Wall.",
+        quiz: { q: "What is the capital of China?", options: ["Beijing", "Shanghai", "Hong Kong", "Guangzhou"], correct: 0 }
+      },
+      RU: {
+        name: "Russia",
+        fact: "Russia is the largest country by land area.",
+        quiz: { q: "What is the capital of Russia?", options: ["Moscow", "Saint Petersburg", "Kazan", "Novosibirsk"], correct: 0 }
+      },
+      FR: {
+        name: "France",
+        fact: "France is famous for the Eiffel Tower.",
+        quiz: { q: "What is the capital of France?", options: ["Paris", "Lyon", "Marseille", "Nice"], correct: 0 }
+      },
+      BR: {
+        name: "Brazil",
+        fact: "Brazil is famous for the Amazon rainforest.",
+        quiz: { q: "What is the capital of Brazil?", options: ["Rio de Janeiro", "São Paulo", "Brasília", "Salvador"], correct: 2 }
+      },
+      AU: {
+        name: "Australia",
+        fact: "Australia is known for the Sydney Opera House.",
+        quiz: { q: "What is the capital of Australia?", options: ["Sydney", "Melbourne", "Canberra", "Perth"], correct: 2 }
+      },
+      ZA: {
+        name: "South Africa",
+        fact: "South Africa has three capitals: Pretoria, Cape Town, and Bloemfontein.",
+        quiz: { q: "Which is the executive capital of South Africa?", options: ["Cape Town", "Pretoria", "Durban", "Johannesburg"], correct: 1 }
+      },
+      JP: {
+        name: "Japan",
+        fact: "Japan is famous for Mount Fuji and cherry blossoms.",
+        quiz: { q: "What is the capital of Japan?", options: ["Tokyo", "Kyoto", "Osaka", "Hiroshima"], correct: 0 }
+      },
+      IT: {
+        name: "Italy",
+        fact: "Italy is home to the Colosseum in Rome.",
+        quiz: { q: "What is the capital of Italy?", options: ["Rome", "Milan", "Venice", "Naples"], correct: 0 }
+      }
+    };
+
+    function showInfo(code, el) {
+      document.querySelectorAll(".country").forEach(c => c.classList.remove("active"));
+      el.classList.add("active");
+
+      const country = countryData[code];
+      const infoDiv = document.getElementById("info");
+
+      let optionsHtml = country.quiz.options.map((opt, idx) => 
+        `<button onclick="checkAnswer(this, ${idx}, ${country.quiz.correct})">${opt}</button>`
+      ).join("");
+
+      infoDiv.innerHTML = `
+        <h3>${country.name}</h3>
+        <p>${country.fact}</p>
+        <div class="quiz">
+          <p><b>Quiz:</b> ${country.quiz.q}</p>
+          ${optionsHtml}
+        </div>
+      `;
+      infoDiv.style.display = "block";
+
+      // play audio
+      if (country.audio) {
+        let audio = new Audio(country.audio);
+        audio.play();
+      } else {
+        let speech = new SpeechSynthesisUtterance(`${country.name}. ${country.fact}`);
+        speech.lang = "en-US";
+        speech.rate = 1;
+        window.speechSynthesis.speak(speech);
+      }
+    }
+
+    function checkAnswer(btn, chosen, correct) {
+      if (chosen === correct) {
+        btn.classList.add("correct");
+        btn.innerHTML += " ✅";
+      } else {
+        btn.classList.add("wrong");
+        btn.innerHTML += " ❌";
+      }
+      // disable all buttons
+      const buttons = btn.parentElement.querySelectorAll("button");
+      buttons.forEach(b => b.disabled = true);
+    }
+  </script>
+</body>
+</html>
